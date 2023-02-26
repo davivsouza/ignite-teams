@@ -13,8 +13,8 @@ export default function App() {
   
   return (
     <ThemeProvider theme={theme}>
-        {!fontsLoaded ? <Groups/> : <Loading />}
-        <StatusBar style='light' translucent/>
+        {fontsLoaded ? <Groups/> : <Loading />}
+        <StatusBar style='light'/>
     </ThemeProvider>
   );
 }
