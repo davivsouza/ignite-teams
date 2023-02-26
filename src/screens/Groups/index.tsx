@@ -1,11 +1,15 @@
 import {Container} from './styles'
-import {Text} from 'react-native'
+import { Header } from '@components/Header'
+import { Highlight } from '@components/Highlight'
 export function Groups(){
     return(
         <Container>
-            <Text>
-                Groups
-            </Text>
+            <Header/>
+
+            <Highlight 
+                title="Turmas"
+                subtitle='Jogue com sua turma'
+            />
         </Container>
     )
 }
