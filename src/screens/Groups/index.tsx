@@ -12,10 +12,9 @@ export function Groups() {
     "Galera do Free Fire",
     "Amigos",
   ]);
+  const navigation = useNavigation();
 
   function handleNewGroup() {
-    const navigation = useNavigation();
-
     navigation.navigate("new");
   }
 
