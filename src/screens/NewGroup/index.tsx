@@ -4,12 +4,14 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { Container, Content, Icon } from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 
 export function NewGroup() {
+  const [group, setGroup] = useState("");
   const navigation = useNavigation();
 
   function handleCreate() {
-    navigation.navigate("players", { group: "TCC Grupo" });
+    navigation.navigate("players", { group });
   }
   return (
     <Container>
@@ -23,7 +25,7 @@ export function NewGroup() {
           subtitle="crie a turma para adicionar as pessoas"
         />
 
-        <Input placeholder="Nome da turma" />
+        <Input placeholder="Nome da turma" onChangeText={setGroup} />
 
         <Button
           title="Criar"
