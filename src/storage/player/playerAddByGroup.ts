@@ -10,11 +10,11 @@ export async function playerAddByGroup(
 ) {
   try {
     const storedPlayers = await playersGetByGroup(group);
-    const playerAlreadyExists = storedPlayers.filter(
+    const playerAlreadyInAGroup = storedPlayers.filter(
       (player) => player.name === newPlayer.name
     );
 
-    if (playerAlreadyExists.length > 0) {
+    if (playerAlreadyInAGroup.length > 0) {
       throw new AppError("Esta pessoa já está em um grupo!");
     }
     const storage = JSON.stringify([...storedPlayers, newPlayer]);
