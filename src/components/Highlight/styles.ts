@@ -8,8 +8,8 @@ export const Container = styled.View`
 export const Title = styled.Text`
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.XL}px;
-    font-family: ${theme.FONT_FAMILY.BOLD}px;
-    color: ${theme.COLORS.WHITE}px;
+    font-family: ${theme.FONT_FAMILY.BOLD};
+    color: ${theme.COLORS.WHITE};
   `}
   text-align: center;
 `;
@@ -17,8 +17,8 @@ export const Title = styled.Text`
 export const Subtitle = styled.Text`
   ${({ theme }) => css`
     font-size: ${theme.FONT_SIZE.MD}px;
-    font-family: ${theme.FONT_FAMILY.REGULAR}px;
-    color: ${theme.COLORS.GRAY_300}px;
+    font-family: ${theme.FONT_FAMILY.REGULAR};
+    color: ${theme.COLORS.GRAY_300};
   `}
   text-align: center;
 `;
