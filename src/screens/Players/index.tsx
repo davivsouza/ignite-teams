@@ -11,8 +11,8 @@ import { playerAddByGroup } from "@storage/player/playerAddByGroup";
 import { playersGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
 import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
 import { AppError } from "@utils/appError";
-import { useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { Alert, TextInput } from "react-native";
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 
@@ -28,6 +28,8 @@ export function Players() {
   const route = useRoute();
   const { group } = route.params as RouteParams;
 
+  const newPlayerInputRef = useRef<TextInput>(null);
+
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0) {
       return Alert.alert(
@@ -40,8 +42,11 @@ export function Players() {
       name: newPlayerName,
       team,
     };
+
     try {
       await playerAddByGroup(newPlayer, group);
+      newPlayerInputRef.current?.blur(); //tirar foco do input
+      setNewPlayerName("");
       fetchPlayersByTeam();
     } catch (error) {
       if (error instanceof AppError) {
@@ -76,8 +81,14 @@ export function Players() {
       <Form>
         <Input
           placeholder="Nome da pessoa"
+          inputRef={newPlayerInputRef}
           autoCorrect={false}
+          value={newPlayerName}
           onChangeText={setNewPlayerName}
+          //mudando icone de enviar no teclado
+          //fazendo ele retornar nossa função de adicionar Player
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType="done"
         />
         <ButtonIcon icon="add" onPress={handleAddPlayer} />
       </Form>
