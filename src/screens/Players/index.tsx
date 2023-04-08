@@ -6,7 +6,7 @@ import { Highlight } from "@components/Highlight";
 import { Input } from "@components/Input";
 import { ListEmpty } from "@components/ListEmpty";
 import { PlayerCard } from "@components/PlayerCard";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { playerAddByGroup } from "@storage/player/playerAddByGroup";
 import { playersGetByGroupAndTeam } from "@storage/player/playerGetByGroupAndTeam";
 import { PlayerStorageDTO } from "@storage/player/PlayerStorageDTO";
@@ -16,6 +16,7 @@ import { Alert, TextInput } from "react-native";
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
+import { groupRemoveByName } from "@storage/group/groupRemoveByName";
 
 type RouteParams = {
   group: string;
@@ -28,6 +29,7 @@ export function Players() {
 
   const route = useRoute();
   const { group } = route.params as RouteParams;
+  const navigation = useNavigation();
 
   const newPlayerInputRef = useRef<TextInput>(null);
 
@@ -78,7 +80,25 @@ export function Players() {
       Alert.alert('Remover Pessoa', 'Não foi possível remover essa pessoa')
     }
   }
+  async function groupDelete(){
+    try{
+      await groupRemoveByName(group);
+      navigation.navigate('groups');
+    }catch(error){
+      Alert.alert('Remover grupo', 'Não foi possível remover grupo')
+    }
+  }
 
+  async function handleGroupDelete(){
+    Alert.alert(
+      'Remover',
+      'Deseja remover o grupo?',
+      [
+        {text: 'Não', style: 'cancel'},
+        {text: 'Sim', onPress: () => groupDelete()}
+      ]
+    )
+  }
   useEffect(() => {
     fetchPlayersByTeam();
   }, [team]);
@@ -135,7 +155,7 @@ export function Players() {
         ]}
       />
 
-      <Button title="Remover Turma" type="SECONDARY" />
+      <Button title="Remover Turma" type="SECONDARY" onPress={handleGroupDelete}/>
     </Container>
   );
 }
