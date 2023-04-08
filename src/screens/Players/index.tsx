@@ -15,6 +15,7 @@ import { useEffect, useState, useRef } from "react";
 import { Alert, TextInput } from "react-native";
 import { FlatList } from "react-native";
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
+import { playerRemoveByGroup } from "@storage/player/playerRemoveByGroup";
 
 type RouteParams = {
   group: string;
@@ -69,6 +70,15 @@ export function Players() {
     }
   }
 
+  async function handlePlayerRemove(playerName: string){
+    try{
+      await playerRemoveByGroup(playerName, group)
+      fetchPlayersByTeam();
+    }catch(error){
+      Alert.alert('Remover Pessoa', 'Não foi possível remover essa pessoa')
+    }
+  }
+
   useEffect(() => {
     fetchPlayersByTeam();
   }, [team]);
@@ -114,7 +124,7 @@ export function Players() {
         keyExtractor={(item) => item.name}
         showsVerticalScrollIndicator={false}
         renderItem={({ item: player }) => (
-          <PlayerCard name={player.name} onRemove={() => {}} />
+          <PlayerCard name={player.name} onRemove={() => handlePlayerRemove(player.name)} />
         )}
         ListEmptyComponent={() => (
           <ListEmpty message="Não há pessoas nesse time " />
